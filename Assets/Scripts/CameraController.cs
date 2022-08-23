@@ -15,8 +15,11 @@ public class CameraController : MonoBehaviour {
 
     public float panSpeed = 40f;
     public float panBorderThickness = 10f;
-    public float minX = -50;
-    public float maxX = 50;
+    public float minX = -62.2f;
+    public float maxX = 100f;
+
+    public float maxZ = 3f;
+    public float minZ = -100f;
 
 
     public float scrollSpeed = 1000f;
@@ -49,20 +52,32 @@ public class CameraController : MonoBehaviour {
 
 
         // move
-        if (Input.GetKey("w") || Input.mousePosition.y >= Screen.height - panBorderThickness) { // todo: limit
+        if (Input.GetKey("w") || Input.mousePosition.y >= Screen.height - panBorderThickness) {
+            if(pos.z >= maxZ) {
+                return;
+            }
             transform.Translate(Vector3.forward * panSpeed * Time.deltaTime, Space.World);
             
         }
 
-        if (Input.GetKey("s") || Input.mousePosition.y <= panBorderThickness) { // todo: limit
+        if (Input.GetKey("s") || Input.mousePosition.y <= panBorderThickness) {
+            if(pos.z <= minZ) {
+                return;
+            }
             transform.Translate(Vector3.back * panSpeed * Time.deltaTime, Space.World);
         }
 
-        if (Input.GetKey("a") || Input.mousePosition.x <= panBorderThickness) { // todo: limit
+        if (Input.GetKey("a") || Input.mousePosition.x <= panBorderThickness) {
+            if (pos.x <= minX) {
+                return;
+            }
             transform.Translate(Vector3.left * panSpeed * Time.deltaTime, Space.World);
         }
 
-        if (Input.GetKey("d") || Input.mousePosition.x >= Screen.width - panBorderThickness) {  // todo: limit
+        if (Input.GetKey("d") || Input.mousePosition.x >= Screen.width - panBorderThickness) {
+            if (pos.x >= maxX) {
+                return;
+            }
             transform.Translate(Vector3.right * panSpeed * Time.deltaTime, Space.World);
         }
 
