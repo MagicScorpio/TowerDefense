@@ -1,8 +1,16 @@
+using System.Threading;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Shop : MonoBehaviour {
 
+    public TurretBlueprint standartTurret;
+    public TurretBlueprint missileLauncher;
+
     BuildManager buildManager;
+
 
     void Start() {
         buildManager = BuildManager.instance;
@@ -10,18 +18,16 @@ public class Shop : MonoBehaviour {
 
 
 
-
-
-
-    public void PurchaseStandartTurret() {
+    public void SelectStandartTurret() {
         Debug.Log("Standart Turret Selected");
-        buildManager.SetTurretToBuild(buildManager.standartTurretPrefab);
+        buildManager.SelectTurretToBuild(standartTurret);
     }
 
 
-    public void PurchaseMissileLauncher() {
+
+    public void SelectMissileLauncher() {
         Debug.Log("Missile Launcher Selected");
-        buildManager.SetTurretToBuild(buildManager.missileLauncherPrefab);
+        buildManager.SelectTurretToBuild(missileLauncher);
     }
 
 
