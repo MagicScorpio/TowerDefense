@@ -1,20 +1,22 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
-{
+public class Bullet : MonoBehaviour {
 
     private Transform target;
 
     public float speed = 70f;
+
+    public int damage = 50;
+
     public float explosionRadius = 0f;
     public GameObject impactEffect;
-    
-    public void Seek (Transform _target) {
+
+    public void Seek(Transform _target) {
         target = _target;
     }
-    
-    
-    
+
+
+
     void Update() {
         if (target == null) {
             Destroy(gameObject);
@@ -24,7 +26,7 @@ public class Bullet : MonoBehaviour
         Vector3 dir = target.position - transform.position;
         float distanceThisFrame = speed * Time.deltaTime;
 
-        if(dir.magnitude <= distanceThisFrame) {
+        if (dir.magnitude <= distanceThisFrame) {
 
             HitTarget();
             return;
@@ -48,16 +50,16 @@ public class Bullet : MonoBehaviour
             Damage(target);
         }
 
-        Destroy(target.gameObject);
+
         Destroy(gameObject);
 
     }
 
     void Explode() {
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider collider in colliders) { 
+        foreach (Collider collider in colliders) {
 
-            if(collider.tag == "Enemy") {
+            if (collider.tag == "Enemy") {
                 Damage(collider.transform);
             }
 
@@ -68,7 +70,14 @@ public class Bullet : MonoBehaviour
 
 
     void Damage(Transform enemy) {
-        Destroy(enemy.gameObject);
+
+        Enemy e = enemy.GetComponent<Enemy>();
+
+        if (e != null) {
+            e.TakeDamage(damage);
+        }
+
+        print(e.health);
     }
 
     private void OnDrawGizmosSelected() {
